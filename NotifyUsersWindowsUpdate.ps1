@@ -302,4 +302,4 @@ add-type -TypeDefinition $source
     $Content = New-BTContent -Visual $Visual -Actions $action
     Submit-BTNotification -Content $Content
     
-[ProcessExtensions]::StartProcessAsCurrentUser("$($env:windir)\system32\windowspowershell\v1.0\powershell.exe",$commandline)
+[ProcessExtensions]::StartProcessAsCurrentUser($commandline)
