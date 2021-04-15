@@ -1,4 +1,3 @@
-﻿#Checking if ToastReboot:// protocol handler is present
 New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT -erroraction silentlycontinue | out-null
 $ProtocolHandler = get-item 'HKCR:\ToastReboot' -erroraction 'silentlycontinue'
 if (!$ProtocolHandler) {
@@ -12,9 +11,10 @@ if (!$ProtocolHandler) {
 }
  
 Install-Module -Name BurntToast -Force
+Import-Module -Name BurntToast
 Install-module -Name RunAsUser -Force
+Import-Module -Name RunAsUser
 Invoke-AsCurrentUser -ScriptBlock {
- 
     $heroimage = New-BTImage -Source 'https://www.rkblack.com/images/brand-logo.png' -HeroImage
     $Text1 = New-BTText -Content  "Message from R. K. Black IT"
     $Text2 = New-BTText -Content "Your IT provider has installed updates on your computer at $(get-date). Please select if you'd like to reboot now, or snooze this message."
