@@ -284,7 +284,6 @@ using System.Runtime.InteropServices;
 
 add-type -TypeDefinition $source
 
-{
     $heroimage = New-BTImage -Source 'https://www.rkblack.com/images/brand-logo.png' -HeroImage
     $Text1 = New-BTText -Content  "Message from R. K. Black IT"
     $Text2 = New-BTText -Content "Your IT provider has installed updates on your computer at $(get-date). Please select if you'd like to reboot now, or snooze this message."
