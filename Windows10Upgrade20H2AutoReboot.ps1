@@ -8,7 +8,7 @@ $MountResult = Mount-DiskImage -ImagePath $ISO -PassThru
 $driveLetter = (Get-DiskImage -ImagePath $ISO | Get-Volume).DriveLetter
 $setupFile = $driveLetter + ':\setup.exe'
 $finalCommand = $driveLetter + ':\setup.exe /quiet /auto upgrade /Finalize /copylogs C:\Temp\Logfiles /showoobe none'
-Start-Process -FilePath $setupFile -ArgumentList '/quiet /auto upgrade /SkipFinalize /copylogs C:\Temp\Logfiles /showoobe none'
+Start-Process -FilePath $setupFile -ArgumentList '/quiet /auto upgrade /SkipFinalize /copylogs C:\Temp\Logfiles /showoobe none' -Wait
 
 
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
