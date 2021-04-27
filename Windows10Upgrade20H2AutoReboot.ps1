@@ -10,26 +10,10 @@ $setupFile = $driveLetter + ':\setup.exe'
 $finalCommand = $driveLetter + ':\setup.exe /quiet /auto upgrade /Finalize /copylogs C:\Temp\Logfiles /showoobe none'
 Start-Process -FilePath $setupFile -ArgumentList '/quiet /auto upgrade /SkipFinalize /copylogs C:\Temp\Logfiles /showoobe none' | Wait-Process -Name setup -Timeout 7200 -ErrorAction SilentlyContinue
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-if (Get-Module -Name Nuget) {
-}
-else {
 Install-Module -Name NuGet -Force -Confirm:$false
-}
-if (Get-PackageProvider -Name NuGet) {
-} 
-else {
 Install-PackageProvider -Name NuGet -Force -Confirm:$false
-} 
-if (Get-Module -ListAvailable -Name BurntToast) {
-} 
-else {
 Install-Module -Name BurntToast -Force -Confirm:$false
-}
-if (Get-Module -ListAvailable -Name RunAsUser) {
-} 
-else {
 Install-Module -Name RunAsUser -Force -Confirm:$false
-}
 New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT -erroraction silentlycontinue | out-null
 $ProtocolHandler = get-item 'HKCR:\ToastReboot' -erroraction 'silentlycontinue'
 if (!$ProtocolHandler) {
