@@ -10,6 +10,11 @@ $setupFile = $driveLetter + ':\setup.exe'
 $finalCommand = $driveLetter + ':\setup.exe /quiet /auto upgrade /Finalize /copylogs C:\Temp\Logfiles /showoobe none'
 Start-Process -FilePath $setupFile -ArgumentList '/quiet /auto upgrade /SkipFinalize /copylogs C:\Temp\Logfiles /showoobe none' | Wait-Process -Name setup -Timeout 7200 -ErrorAction SilentlyContinue
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+if (Get-Module -Name Nuget) {
+}
+else {
+Install-Module -Name NuGet -Force
+}
 if (Get-PackageProvider -Name NuGet) {
 } 
 else {
