@@ -14,26 +14,20 @@ Start-Process -FilePath $setupFile -ArgumentList '/quiet /auto upgrade /SkipFina
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 if (Get-PackageProvider -Name NuGet) {
-    #Write-Host "NuGet Already Added"
 } 
 else {
-    Write-Host "Installing NuGet"
     Install-PackageProvider -Name NuGet -Force
 } 
 
 if (Get-Module -ListAvailable -Name BurntToast) {
-    #Write-Host "BurntToast Already Installed"
 } 
 else {
-    Write-Host "Installing BurntToast"
     Install-Module -Name BurntToast -Force
 }
  
 if (Get-Module -ListAvailable -Name RunAsUser) {
-    #Write-Host "RunAsUser Already Installed"
 } 
 else {
-    Write-Host "Installing RunAsUser"
     Install-Module -Name RunAsUser -Force
 }
 
