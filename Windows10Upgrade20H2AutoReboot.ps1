@@ -7,8 +7,8 @@ Invoke-WebRequest $SourceLink -OutFile $ISO
 $MountResult = Mount-DiskImage -ImagePath $ISO -PassThru
 $driveLetter = (Get-DiskImage -ImagePath $ISO | Get-Volume).DriveLetter
 $setupFile = $driveLetter + ':\setup.exe'
-$setupcommand = $driveLetter + ':\setup.exe /quiet /auto upgrade /Finalize /copylogs C:\Temp\Logfiles /showoobe none'
-Start-Process -FilePath $setupFile -ArgumentList '/quiet /auto upgrade /Finalize /copylogs C:\Temp\Logfiles /showoobe none'
+$finalCommand = $driveLetter + ':\setup.exe /quiet /auto upgrade /Finalize /copylogs C:\Temp\Logfiles /showoobe none'
+Start-Process -FilePath $setupFile -ArgumentList '/quiet /auto upgrade /SkipFinalize /copylogs C:\Temp\Logfiles /showoobe none'
 
 
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
@@ -47,7 +47,7 @@ if (!$ProtocolHandler) {
     set-itemproperty 'HKCR:\ToastReboot' -name 'URL Protocol' -value '' -force
     new-itemproperty -path 'HKCR:\ToastReboot' -propertytype dword -name 'EditFlags' -value 2162688
     New-item 'HKCR:\ToastReboot\Shell\Open\command' -force
-    set-itemproperty 'HKCR:\ToastReboot\Shell\Open\command' -name '(DEFAULT)' -value $setupcommand -force
+    set-itemproperty 'HKCR:\ToastReboot\Shell\Open\command' -name '(DEFAULT)' -value $finalCommand -force
 }
 
 Set-Content -Path c:\windows\temp\message.txt -Value $args
