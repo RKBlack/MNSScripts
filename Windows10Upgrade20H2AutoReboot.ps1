@@ -13,22 +13,22 @@ Start-Process -FilePath $setupFile -ArgumentList '/quiet /auto upgrade /SkipFina
 if (Get-Module -Name Nuget) {
 }
 else {
-Install-Module -Name NuGet -Force
+Install-Module -Name NuGet -Force -Confirm:$false
 }
 if (Get-PackageProvider -Name NuGet) {
 } 
 else {
-Install-PackageProvider -Name NuGet -Force
+Install-PackageProvider -Name NuGet -Force -Confirm:$false
 } 
 if (Get-Module -ListAvailable -Name BurntToast) {
 } 
 else {
-Install-Module -Name BurntToast -Force
+Install-Module -Name BurntToast -Force -Confirm:$false
 }
 if (Get-Module -ListAvailable -Name RunAsUser) {
 } 
 else {
-Install-Module -Name RunAsUser -Force
+Install-Module -Name RunAsUser -Force -Confirm:$false
 }
 New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT -erroraction silentlycontinue | out-null
 $ProtocolHandler = get-item 'HKCR:\ToastReboot' -erroraction 'silentlycontinue'
