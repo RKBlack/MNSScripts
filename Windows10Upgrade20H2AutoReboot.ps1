@@ -1,5 +1,5 @@
 #Download Windows 10 20H2 ISO from Microsoft and silently run the upgrade.
-$SourceLink = 'https://software-download.microsoft.com/db/Win10_20H2_English_x64.iso?t=3c210902-33d5-448d-8f10-657cc6dd7c6b&e=1619607832&h=07117be41dbd38102093cfa1c62f48d7'
+$SourceLink = 'https://bit.ly/3rZOupN'
 $ISO = 'C:\kworking\Win10_20H2_English_x64.iso'
 $ProgressPreference = 'SilentlyContinue'
 Dismount-DiskImage -ImagePath $ISO -ErrorAction SilentlyContinue
