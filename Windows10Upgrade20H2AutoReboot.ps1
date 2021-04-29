@@ -10,7 +10,7 @@ $setupFile = $driveLetter + ':\setup.exe'
 $finalCommand = $driveLetter + ':\setup.exe /quiet /auto upgrade /Finalize /copylogs C:\Temp\Logfiles /showoobe none'
 Start-Process -FilePath $setupFile -ArgumentList '/quiet /auto upgrade /SkipFinalize /copylogs C:\Temp\Logfiles /showoobe none' | Wait-Process -Name setup.exe -Timeout 7200 -ErrorAction SilentlyContinue
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-Install-PackageProvider -Name NuGet -Force -Confirm:$false
+Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
 Install-Module -Name BurntToast -Force -Confirm:$false
 Install-Module -Name RunAsUser -Force -Confirm:$false
 New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT -erroraction silentlycontinue | out-null
