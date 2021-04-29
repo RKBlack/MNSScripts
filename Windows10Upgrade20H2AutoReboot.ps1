@@ -8,7 +8,8 @@ $MountResult = Mount-DiskImage -ImagePath $ISO -PassThru
 $driveLetter = (Get-DiskImage -ImagePath $ISO | Get-Volume).DriveLetter
 $setupFile = $driveLetter + ':\setup.exe'
 $finalCommand = $driveLetter + ':\setup.exe /quiet /auto upgrade /Finalize /copylogs C:\Temp\Logfiles /showoobe none'
-Start-Process -FilePath $setupFile -ArgumentList '/quiet /auto upgrade /SkipFinalize /copylogs C:\Temp\Logfiles /showoobe none' | Wait-Process -Name setup.exe -Timeout 7200 -ErrorAction SilentlyContinue
+$runSetup = Start-Process -FilePath $setupFile -ArgumentList '/quiet /auto upgrade /SkipFinalize /copylogs C:\Temp\Logfiles /showoobe none' -PassThru
+$runSetup.WaitForExit()
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
 Install-Module -Name BurntToast -Force -Confirm:$false
