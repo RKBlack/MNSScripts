@@ -7,7 +7,7 @@ Invoke-WebRequest $SourceLink -OutFile $ISO
 $MountResult = Mount-DiskImage -ImagePath $ISO -PassThru
 $driveLetter = (Get-DiskImage -ImagePath $ISO | Get-Volume).DriveLetter
 $setupFile = $driveLetter + ':\setup.exe'
-$runSetup = Start-Process -FilePath $setupFile -ArgumentList '/quiet /auto upgrade /SkipFinalize /copylogs C:\Temp\Logfiles /showoobe none' -PassThru
+$runSetup = Start-Process -FilePath $setupFile -ArgumentList '/quiet /auto upgrade /NoReboot /copylogs C:\Temp\Logfiles /showoobe none' -PassThru
 $runSetup.WaitForExit()
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
@@ -21,7 +21,7 @@ set-itemproperty 'HKCR:\ToastReboot' -name '(DEFAULT)' -value 'url:ToastReboot' 
 set-itemproperty 'HKCR:\ToastReboot' -name 'URL Protocol' -value '' -force
 new-itemproperty -path 'HKCR:\ToastReboot' -propertytype dword -name 'EditFlags' -value 2162688
 New-item 'HKCR:\ToastReboot\Shell\Open\command' -force
-$finalCommand = Start-Process -FilePath $driveLetter + ':\setup.exe' -ArgumentList '/quiet /auto upgrade /Finalize /copylogs C:\Temp\Logfiles /showoobe none'
+$finalCommand = Restart-Computer
 set-itemproperty 'HKCR:\ToastReboot\Shell\Open\command' -name '(DEFAULT)' -value $finalCommand -force
 }
 Set-Content -Path c:\windows\temp\message.txt -Value $args
