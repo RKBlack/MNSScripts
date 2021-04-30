@@ -21,8 +21,7 @@ set-itemproperty 'HKCR:\ToastReboot' -name '(DEFAULT)' -value 'url:ToastReboot' 
 set-itemproperty 'HKCR:\ToastReboot' -name 'URL Protocol' -value '' -force
 new-itemproperty -path 'HKCR:\ToastReboot' -propertytype dword -name 'EditFlags' -value 2162688
 New-item 'HKCR:\ToastReboot\Shell\Open\command' -force
-$finalCommand = Restart-Computer
-set-itemproperty 'HKCR:\ToastReboot\Shell\Open\command' -name '(DEFAULT)' -value $finalCommand -force
+set-itemproperty 'HKCR:\ToastReboot\Shell\Open\command' -name '(DEFAULT)' -value 'C:\Windows\System32\shutdown.exe -r -t 00' -force
 }
 Set-Content -Path c:\windows\temp\message.txt -Value $args
 Invoke-AsCurrentUser -scriptblock {
