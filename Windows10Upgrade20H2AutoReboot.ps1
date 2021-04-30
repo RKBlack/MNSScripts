@@ -7,7 +7,7 @@ Invoke-WebRequest $SourceLink -OutFile $ISO
 $MountResult = Mount-DiskImage -ImagePath $ISO -PassThru
 $driveLetter = (Get-DiskImage -ImagePath $ISO | Get-Volume).DriveLetter
 $setupFile = $driveLetter + ':\setup.exe'
-$finalCommand = $driveLetter + ':\setup.exe /quiet /auto upgrade /Finalize /copylogs C:\Temp\Logfiles /showoobe none'
+$finalCommand = Start-Process -FilePath $driveLetter + ':\setup.exe' -ArgumentList '/quiet /auto upgrade /Finalize /copylogs C:\Temp\Logfiles /showoobe none'
 $runSetup = Start-Process -FilePath $setupFile -ArgumentList '/quiet /auto upgrade /SkipFinalize /copylogs C:\Temp\Logfiles /showoobe none' -PassThru
 $runSetup.WaitForExit()
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
