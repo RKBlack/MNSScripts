@@ -1,0 +1,20 @@
+On Error Resume Next
+
+Set WshShell = CreateObject("WScript.Shell")
+Set fso = CreateObject("Scripting.FileSystemObject")
+
+strProg = WshShell.ExpandEnvironmentStrings("%ProgramFiles%")
+strProgData = wshShell.ExpandEnvironmentStrings("%ProgramData%")
+
+
+wshShell.run Chr(34) & strProg & "\Opera\Opera.exe" & Chr(34) & " /silent /uninstall", 1, True
+
+Wscript.Sleep 5000
+
+If fso.FolderExists(strProg & "\Opera") Then
+fso.DeleteFolder strProg & "\Opera", True
+End If
+
+If fso.FolderExists(strProgData & "\Microsoft\Windows\Start Menu\Programs\Opera") Then
+fso.DeleteFolder strProgData & "\Microsoft\Windows\Start Menu\Programs\Opera"
+End If
