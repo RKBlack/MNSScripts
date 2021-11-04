@@ -33,11 +33,11 @@ Start-Transcript -Path (Join-Path $env:TEMP "OneDrive.log") -Append -Force
 Write-Host "Starting download latest OneDrive client"
 Invoke-WebRequest -Uri $OneDriveDownloadURI -OutFile (Join-Path "$($env:TEMP)" "OneDriveSetup.exe")
 
-Write-Host "Initialize OneDriveSetup with AllUsers argument..."
+Write-Host "Initialize OneDriveSetup with /silent /allusers argument..."
 $OneDriveSetup = (Join-Path "$($env:TEMP)" "OneDriveSetup.exe")
 
-Write-Host "Now time to install OneDrive in program folder $($OneDriveSetup) /allusers /silent"
-$proc = Start-Process -FilePath $OneDriveSetup -ArgumentList "/allusers /silent" -WindowStyle Hidden -PassThru
+Write-Host "Now time to install OneDrive in program folder $($OneDriveSetup) /silent /allusers"
+$proc = Start-Process -FilePath $OneDriveSetup -ArgumentList "/silent /allusers" -WindowStyle Hidden -PassThru
 $proc.WaitForExit()
 Write-Host "OneDriveSetup exit code: $($proc.ExitCode)"
 
