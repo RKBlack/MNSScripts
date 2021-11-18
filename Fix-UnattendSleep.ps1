@@ -4,6 +4,8 @@ $partregkey = Read-Host "Enter the path from UnattendSleep reg key found in RegE
 $fullregkey = $partregkey.Replace("Computer\HKEY_LOCAL_MACHINE", "HKLM:")
 Write-Host $fullregkey
 Write-Host "Current Settings:"
-Get-ChildItem -Path "$fullregkey" -Recurse | Get-ItemProperty | Select-Object PSChildName, ACSettingIndex, DCSettingIndex
-Get-ChildItem -Path "$fullregkey" -Recurse | Set-ItemProperty -Name ACSettingIndex -Value 0
-Get-ChildItem -Path "$fullregkey" -Recurse | Set-ItemProperty -Name DCSettingIndex -Value 0
+Get-ChildItem -Path "$fullregkey" -Recurse -Exclude | Get-ItemProperty | Select-Object PSChildName, ACSettingIndex, DCSettingIndex
+Get-ChildItem -Path "$fullregkey" -Recurse -Exclude "DefaultPowerSchemeValues" | Set-ItemProperty -Name ACSettingIndex -Value 0
+Get-ChildItem -Path "$fullregkey" -Recurse -Exclude "DefaultPowerSchemeValues" | Set-ItemProperty -Name DCSettingIndex -Value 0
+Write-Host "New Settings:"
+Get-ChildItem -Path "$fullregkey" -Recurse -Exclude | Get-ItemProperty | Select-Object PSChildName, ACSettingIndex, DCSettingIndex
