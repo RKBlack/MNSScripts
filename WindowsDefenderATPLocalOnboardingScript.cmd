@@ -1,25 +1,13 @@
 @echo off
 
-echo This script is for onboarding machines to the Microsoft Defender for Endpoint services, including security and compliance products.
-echo Once completed, the machine should light up in the portal within 5-30 minutes, depending on this machine's Internet connectivity availability and machine power state (plugged in vs. battery powered).
-echo IMPORTANT: This script is optimized for onboarding a single machine and should not be used for large scale deployment.
-echo For more information on large scale deployment, please consult the MDE documentation (links available in the MDE portal under the endpoint onboarding section).
-echo.
-:SCRIPT_START
 REG add "HKLM\SOFTWARE\Policies\Microsoft\Windows Advanced Threat Protection" /v latency /t REG_SZ /f /d "Demo" >NUL 2>&1
 
 @echo off
-
-echo.
-echo Starting Microsoft Defender for Endpoint onboarding process...
-echo.
 
 set errorCode=0
 set lastError=0
 set "troubleshootInfo=For more information, visit: https://go.microsoft.com/fwlink/p/?linkid=822807"
 set "errorDescription="
-
-echo Testing administrator privileges
 
 net session >NUL 2>&1
 if %ERRORLEVEL% NEQ 0 (
@@ -29,10 +17,6 @@ if %ERRORLEVEL% NEQ 0 (
 	GOTO ERROR
 )
 
-echo Script is running with sufficient privileges
-echo.
-echo Performing onboarding operations
-echo.
 
 IF [%PROCESSOR_ARCHITEW6432%] EQU [] (
   set powershellPath=%windir%\System32\WindowsPowerShell\v1.0\powershell.exe
@@ -67,8 +51,6 @@ if %ERRORLEVEL% NEQ 0 (
    GOTO ERROR
 )
 
-echo Starting the service, if not already running
-echo.
 sc query "SENSE" | find /i "RUNNING" >NUL 2>&1
 if %ERRORLEVEL% EQU 0 GOTO RUNNING
 
@@ -81,8 +63,7 @@ goto SUCCEEDED
 
 :RUNNING
 set "runningOutput=The Microsoft Defender for Endpoint Service is already running!"
-echo %runningOutput%
-echo.
+
 eventcreate /l Application /so WDATPOnboarding /t Information /id 10 /d "%runningOutput%" >NUL 2>&1
 GOTO WAIT_FOR_THE_SERVICE_TO_START
 
@@ -90,20 +71,15 @@ GOTO WAIT_FOR_THE_SERVICE_TO_START
 Set /P errorMsg=<%TMP%\senseTmp.txt
 set "errorOutput=[Error Id: %errorCode%, Error Level: %lastError%] %errorDescription% Error message: %errorMsg%"
 %powershellPath% -ExecutionPolicy Bypass -NoProfile -Command "Add-Type 'using System; using System.Diagnostics; using System.Diagnostics.Tracing; namespace Sense { [EventData(Name = \"Onboarding\")]public struct Onboarding{public string Message { get; set; }} public class Trace {public static EventSourceOptions TelemetryCriticalOption = new EventSourceOptions(){Level = EventLevel.Error, Keywords = (EventKeywords)0x0000200000000000, Tags = (EventTags)0x0200000}; public void WriteOnboardingMessage(string message){es.Write(\"OnboardingScript\", TelemetryCriticalOption, new Onboarding {Message = message});} private static readonly string[] telemetryTraits = { \"ETW_GROUP\", \"{5ECB0BAC-B930-47F5-A8A4-E8253529EDB7}\" }; private EventSource es = new EventSource(\"Microsoft.Windows.Sense.Client.Management\",EventSourceSettings.EtwSelfDescribingEventFormat,telemetryTraits);}}'; $logger = New-Object -TypeName Sense.Trace; $logger.WriteOnboardingMessage('%errorOutput%')" >NUL 2>&1
-echo %errorOutput%
-echo %troubleshootInfo%
-echo.
+
 eventcreate /l Application /so WDATPOnboarding /t Error /id %errorCode% /d "%errorOutput%" >NUL 2>&1
 GOTO CLEANUP
 
 :SUCCEEDED
-echo Finished performing onboarding operations
-echo.
+
 GOTO WAIT_FOR_THE_SERVICE_TO_START
 
 :WAIT_FOR_THE_SERVICE_TO_START
-echo Waiting for the service to start
-echo.
 
 set /a counter=0
 
@@ -160,8 +136,7 @@ if %ERRORLEVEL% NEQ 0 (
 )
 
 set "successOutput=Successfully onboarded machine to Microsoft Defender for Endpoint"
-echo %successOutput%
-echo.
+
 eventcreate /l Application /so WDATPOnboarding /t Information /id 20 /d "%successOutput%" >NUL 2>&1
 %powershellPath% -ExecutionPolicy Bypass -NoProfile -Command "Add-Type 'using System; using System.Diagnostics; using System.Diagnostics.Tracing; namespace Sense { [EventData(Name = \"Onboarding\")]public struct Onboarding{public string Message { get; set; }} public class Trace {public static EventSourceOptions TelemetryCriticalOption = new EventSourceOptions(){Level = EventLevel.Informational, Keywords = (EventKeywords)0x0000200000000000, Tags = (EventTags)0x0200000}; public void WriteOnboardingMessage(string message){es.Write(\"OnboardingScript\", TelemetryCriticalOption, new Onboarding {Message = message});} private static readonly string[] telemetryTraits = { \"ETW_GROUP\", \"{5ECB0BAC-B930-47F5-A8A4-E8253529EDB7}\" }; private EventSource es = new EventSource(\"Microsoft.Windows.Sense.Client.Management\",EventSourceSettings.EtwSelfDescribingEventFormat,telemetryTraits);}}'; $logger = New-Object -TypeName Sense.Trace; $logger.WriteOnboardingMessage('%successOutput%')" >NUL 2>&1
 "%PROGRAMFILES%\Windows Defender\MpCmdRun.exe" -ReloadEngine >NUL 2>&1
