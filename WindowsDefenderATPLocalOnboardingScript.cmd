@@ -5,18 +5,6 @@ echo Once completed, the machine should light up in the portal within 5-30 minut
 echo IMPORTANT: This script is optimized for onboarding a single machine and should not be used for large scale deployment.
 echo For more information on large scale deployment, please consult the MDE documentation (links available in the MDE portal under the endpoint onboarding section).
 echo.
-:USER_CONSENT
-set /p shouldContinue= "Press (Y) to confirm and continue or (N) to cancel and exit: "
-IF /I "%shouldContinue%"=="N" (
-	GOTO CLEANUP
-)
-IF /I "%shouldContinue%"=="Y" (
-	GOTO SCRIPT_START
-)
-echo.
-echo Wrong input. Please try again.
-GOTO USER_CONSENT
-echo.
 :SCRIPT_START
 REG add "HKLM\SOFTWARE\Policies\Microsoft\Windows Advanced Threat Protection" /v latency /t REG_SZ /f /d "Demo" >NUL 2>&1
 
