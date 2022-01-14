@@ -5,5 +5,5 @@ curl -o /tmp/PrinterInstallerClientSetup.pkg "https://$1/client/setup/PrinterIns
 sleep 10
 fi
 installer -allowUntrusted -pkg /tmp/PrinterInstallerClientSetup.pkg -target /
-bash /opt/PrinterInstallerClient/bin/set_home_url.sh https $1
-bash /opt/PrinterInstallerClient/bin/use_authorization_code.sh $2
+bash /opt/PrinterInstallerClient/bin/set_home_url.sh https "$1"
+bash /opt/PrinterInstallerClient/bin/use_authorization_code.sh "$2"
