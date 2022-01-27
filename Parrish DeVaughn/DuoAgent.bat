@@ -1,0 +1,1 @@
+msiexec.exe /i "C:\Windows\Temp\DuoWindowsLogon64.msi" IKEY="DIBY2MHAW0F69ANPCURZ" SKEY="0iHYyGarUFMx27LZgIElmaxJ7MPVDqN2migGmNxA" HOST="api-4fad82bb.duosecurity.com" AUTOPUSH="#1" FAILOPEN="#0" SMARTCARD="#0" RDPONLY="#0" /qn
