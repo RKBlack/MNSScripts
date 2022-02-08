@@ -19,7 +19,7 @@ function Start-Sleep($seconds) {
 }
 
 # Download the installer
-$source = "https://cdn.stubdownloader.services.mozilla.com/builds/firefox-latest-ssl/en-US/win64/5fc0f6f4ebe191bbc4f38b9f25ef00095f127ec658ee3ba396c471824de95899/Firefox%20Setup%2096.0.1.exe"
+$source = "https://download.mozilla.org/?product=firefox-latest-ssl&os=win64&lang=en-US"
 $destination = "$workdir\Firefox-Setup.exe"
 Invoke-WebRequest $source -OutFile $destination
 # Start the installation
