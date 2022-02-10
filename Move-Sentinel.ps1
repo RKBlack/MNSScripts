@@ -33,25 +33,12 @@ function Move-Sentinel {
         if ($Force -or $PSCmdlet.ShouldProcess("ShouldProcess?")) {
             Write-Verbose ('[{0}] Reached command' -f $MyInvocation.MyCommand)
             $ConfirmPreference = 'None'
-            $sentinelcli = New-Object System.Diagnostics.ProcessStartInfo
-            $sentinelcli.FileName = "C:\Program Files\SentinelOne\" + (Get-ChildItem "C:\Program Files\SentinelOne" | Select-Object Name -ExpandProperty Name) + "\sentinelctl.exe"
-            if (Test-Path $sentinelcli.FileName) {
-                $sentinelcli.RedirectStandardError = $true
-                $sentinelcli.RedirectStandardOutput = $true
-                $sentinelcli.UseShellExecute = $false
-                $sentinelcli.Arguments = "bind $SiteKey -k $AgentPass"
-                $p = New-Object System.Diagnostics.Process
-                $p.StartInfo = $sentinelcli
-                $p.Start() | Out-Null
-                $p.WaitForExit()
-                stdout = $p.StandardOutput.ReadToEnd()
-                $stderr = $p.StandardError.ReadToEnd()
-                Write-Host "stdout: $stdout"
-                Write-Host "stderr: $stderr"
-                Write-Host "exit code: " + $p.ExitCode
-                Start-Sleep -Seconds 30
-                $sentinelcli.Arguments = "reload -a -k '$AgentPass'"
-                Start-Sleep -Seconds 30
+            $sentinelcli = "C:\Program Files\SentinelOne\" + (Get-ChildItem "C:\Program Files\SentinelOne" | Select-Object Name -ExpandProperty Name) + "\sentinelctl.exe"
+            if (Test-Path $sentinelcli) {
+                & $sentinelcli bind $SiteKey -k $AgentPass
+                Start-Sleep -Seconds 10
+                & $sentinelcli reload -a -k $AgentPass
+                Start-Sleep -Seconds 10
                 Write-Host "Transfer Complete. A system reboot may be required."
             }
             else {
