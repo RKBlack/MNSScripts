@@ -34,7 +34,7 @@ function Move-Sentinel {
             Write-Verbose ('[{0}] Reached command' -f $MyInvocation.MyCommand)
             $ConfirmPreference = 'None'
             $sentinelcli = New-Object System.Diagnostics.ProcessStartInfo
-            $sentinelcli.FileName = "C:\Program Files\SentinelOne" + (Get-ChildItem "C:\Program Files\SentinelOne" | Select-Object Name -ExpandProperty Name) + "\sentinelctl.exe"
+            $sentinelcli.FileName = "C:\Program Files\SentinelOne\" + (Get-ChildItem "C:\Program Files\SentinelOne" | Select-Object Name -ExpandProperty Name) + "\sentinelctl.exe"
             if (Test-Path $sentinelcli.FileName) {
             $sentinelcli.RedirectStandardError = $true
             $sentinelcli.RedirectStandardOutput = $true
