@@ -45,7 +45,6 @@
             }
             else {
                 Write-Host "sentinelctl.exe not found.  Is SentinelOne Installed?"
-                Exit
             }
         }
     }
