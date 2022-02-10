@@ -33,7 +33,7 @@
         if ($Force -or $PSCmdlet.ShouldProcess("ShouldProcess?")) {
             Write-Verbose ('[{0}] Reached command' -f $MyInvocation.MyCommand)
             $ConfirmPreference = 'None'
-            $sentinelcli = "C:\Program Files\SentinelOne" + (Get-ChildItem "C:\Program Files\SentinelOne" | Select-Object Name -ExpandProperty Name) + "\SentinelCtl.exe"
+            $sentinelcli = "C:\Program Files\SentinelOne\" + (Get-ChildItem "C:\Program Files\SentinelOne" | Select-Object Name -ExpandProperty Name) + "\SentinelCtl.exe"
             if (Test-Path $sentinelcli) {
                 Write-Host "Starting transfer of agent " + $env:computername + "to site with key " + $SiteKey + ". Please wait."
                 Start-Process -FilePath $sentinelcli -ArgumentList "bind '$SiteKey' -k '$AgentPass'" -NoNewWindow
