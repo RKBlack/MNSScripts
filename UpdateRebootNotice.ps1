@@ -1,6 +1,5 @@
 Install-Module -Name BurntToast -Force
-Invoke-WebRequest -Uri
-
+Invoke-WebRequest -Uri https://raw.githubusercontent.com/RKBlack/MNSScripts/main/reboot.cmd -UseBasicParsing -OutFile C:\Windows\Temp\reboot.cmd
 $Text1 = New-BTText -Content  "Message from R. K. Black IT";
 $Text2 = New-BTText -Content "Your IT provider has installed updates on your computer at $(get-date). Please select if you'd like to reboot now, or snooze this message."
 $Button = New-BTButton -Content "Snooze" -snooze -id 'SnoozeTime'
@@ -16,5 +15,4 @@ $action = New-BTAction -Buttons $Button, $Button2 -inputs $SelectionBox
 $Binding = New-BTBinding -Children $text1, $text2
 $Visual = New-BTVisual -BindingGeneric $Binding
 $Content = New-BTContent -Visual $Visual -Actions $action
-
 Submit-BTNotification -Content $Content
