@@ -39,7 +39,7 @@ function Move-Sentinel {
                 $sentinelcli.RedirectStandardError = $true
                 $sentinelcli.RedirectStandardOutput = $true
                 $sentinelcli.UseShellExecute = $false
-                $sentinelcli.Arguments = "bind '$SiteKey' -k '$AgentPass'"
+                $sentinelcli.Arguments = "bind $SiteKey -k $AgentPass"
                 $p = New-Object System.Diagnostics.Process
                 $p.StartInfo = $sentinelcli
                 $p.Start() | Out-Null
