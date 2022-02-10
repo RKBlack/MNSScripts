@@ -35,7 +35,7 @@
             $ConfirmPreference = 'None'
             $sentinelcli = "C:\Program Files\SentinelOne\" + (Get-ChildItem "C:\Program Files\SentinelOne" | Select-Object Name -ExpandProperty Name) + "\SentinelCtl.exe"
             if (Test-Path $sentinelcli) {
-                Write-Host "Starting transfer of agent " + $env:computername + "to site with key " + $SiteKey + ". Please wait."
+                Write-Host "Starting transfer of agent $env:computername to site with key $SiteKey. Please wait."
                 Start-Process -FilePath $sentinelcli -ArgumentList "bind '$SiteKey' -k '$AgentPass'" -NoNewWindow
                 Start-Sleep -Seconds 30
                 Write-Host "Restarting Sentinel Agent. Please wait."
