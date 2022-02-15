@@ -17,7 +17,14 @@ $ndirectories = @(
     'C:\Program Files (x86)\N-able Technologies'
     'C:\Program Files (x86)\MspPlatform'
     'C:\Program Files (x86)\SolarWinds MSP'
+    'C:\Program Files (x86)\RequestHandlerAgent'
     )
+
+$nwindowsagent = Get-WMIObject -Class win32_Product -Filter "Name='Windows Agent'"
+$nwindowsprobe = Get-WMIObject -Class win32_Product -Filter "Name='Windows Software Probe'"
+
+$nwindowsagent.Uninstall()
+$nwindowsprobe.Uninstall()
 
 Foreach ($unins000 in $uninstallers) {
     Start-Process $unins000 -ArgumentList '/SILENT' -NoNewWindow -Wait
