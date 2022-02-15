@@ -20,6 +20,10 @@ $ndirectories = @(
     'C:\Program Files (x86)\RequestHandlerAgent'
     )
 
+$nregkeys = @(
+    'HKLM:\SOFTWARE\N-able Technologies'
+)
+
 $nwindowsagent = Get-WMIObject -Class win32_Product -Filter "Name='Windows Agent'"
 $nwindowsprobe = Get-WMIObject -Class win32_Product -Filter "Name='Windows Software Probe'"
 
@@ -43,3 +47,7 @@ Foreach ($ndirectory in $ndirectories) {
     Remove-Item $ndirectory -Recurse -Force
     Start-Sleep -Seconds 10
     }
+
+foreach ($neregkey in $nregkeys) {
+    Remove-Item $neregkey -Force -Recurse
+}
