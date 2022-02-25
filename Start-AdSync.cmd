@@ -29,7 +29,7 @@ $form.Controls.Add($cancelButton)
 $label = New-Object System.Windows.Forms.Label
 $label.Location = New-Object System.Drawing.Point(10,20)
 $label.Size = New-Object System.Drawing.Size(280,20)
-$label.Text = 'Please select a computer:'
+$label.Text = 'Please select a policy:'
 $form.Controls.Add($label)
 
 $listBox = New-Object System.Windows.Forms.ListBox
