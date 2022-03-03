@@ -1,20 +1,4 @@
-function Remove-MailboxItemsFunction () {
-
-    #Check for EXO module and install if needed
-    try {
-        Get-Command | Connect-ExchangeOnline
-    }
-    catch {
-        Set-ExecutionPolicy RemoteSigned -Force
-        Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-        Install-Module PowershellGet -Force
-        Install-Module -Name ExchangeOnlineManagement -Force
-    }
-
-    #Connect to EXO - Will prompt user for Modern Auth
-    Connect-ExchangeOnline
-
-
+function Remove-MailboxItems () {
 
     param (
         [Parameter(Mandatory)]
