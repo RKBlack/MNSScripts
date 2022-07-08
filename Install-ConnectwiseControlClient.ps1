@@ -1,13 +1,19 @@
 $HostName = 'https://rkblack.screenconnect.com/'
 $Port = '443'
-$TenantName = $env:USERDOMAIN
+if ($env:USERDOMAIN -eq 'WORKGROUP') {
+    $TenantName = (Resolve-DnsName $((Invoke-WebRequest ifconfig.me/ip).Content.Trim())).NameHost
+} elseif ($env:COMPUTERNAME -eq $env:USERDOMAIN) {
+    $TenantName = (Resolve-DnsName $((Invoke-WebRequest ifconfig.me/ip).Content.Trim())).NameHost
+} else {
+    $TenantName = $env:USERDOMAIN
+}
 $DesiredState = 'Installed'
-$CWCPackage = Get-Package -Name "ScreenConnect Client (cdc0c456f410c9dc)" -ErrorAction SilentlyContinue
+$CWCPackage = Get-Package -Name 'ScreenConnect Client (cdc0c456f410c9dc)' -ErrorAction SilentlyContinue
 $DebugPreference = 'Continue'
 $VerbosePreference = 'Continue'
 
-if ($CWCPackage.Version -ge "22.5") {
-    Write-Warning "ConnectWise Control Client is alreay installed"
+if ($CWCPackage.Version -ge '22.5') {
+    Write-Warning 'ConnectWise Control Client is alreay installed'
     $CWCPackage | Format-Table -AutoSize
     exit 0
 }
