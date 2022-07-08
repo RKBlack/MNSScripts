@@ -6,10 +6,10 @@ $CWCPackage = Get-Package -Name "ScreenConnect Client (cdc0c456f410c9dc)" -Error
 $DebugPreference = 'Continue'
 $VerbosePreference = 'Continue'
 
-if ($null -ne $CWCPackage) {
+if ($CWCPackage.Version -ge "22.5") {
     Write-Warning "ConnectWise Control Client is alreay installed"
     $CWCPackage | Format-Table -AutoSize
-    exit 0       
+    exit 0
 }
 
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
