@@ -1,9 +1,9 @@
 $HostName = 'https://rkblack.screenconnect.com/'
 $Port = '443'
 if ($env:USERDOMAIN -eq 'WORKGROUP') {
-    $TenantName = (Resolve-DnsName $((Invoke-WebRequest ifconfig.me/ip).Content.Trim())).NameHost
+    $TenantName = ((Resolve-DnsName $((Invoke-WebRequest ifconfig.me/ip).Content.Trim())).NameHost).Replace(".","")
 } elseif ($env:COMPUTERNAME -eq $env:USERDOMAIN) {
-    $TenantName = (Resolve-DnsName $((Invoke-WebRequest ifconfig.me/ip).Content.Trim())).NameHost
+    $TenantName = ((Resolve-DnsName $((Invoke-WebRequest ifconfig.me/ip).Content.Trim())).NameHost).Replace(".","")
 } else {
     $TenantName = $env:USERDOMAIN
 }
